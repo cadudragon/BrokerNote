@@ -12,23 +12,28 @@ namespace BrokerNote.Core.Test
     {
         private const string _baseFilePath = "./Resources/";
 
+        public SinacorNoteRequestProcessorTest()
+        {
+
+        }
+
         [Fact]
         public void Should_Return_Brokers_Name()
         {
             //Arrange
             var buyNoteFile = $"{_baseFilePath}SinacorNotes/sinacor-buy-note.pdf";
-            List<Negotiation> result = null;
+            string result = null;
 
             //Act
             using (StreamReader sr = new StreamReader(buyNoteFile))
             {
                 var processor = new SinacorNoteProcessor(sr.BaseStream);
-                result = processor.GetNegotiations();
+                result = processor.GetBrokerName();
             }
 
             // Assert
             Assert.NotNull(result);
-            Assert.Equal("CLEAR CORRETORA", result.First().BrokerName);
+            Assert.Contains("CLEAR CORRETORA", result);
         }
     }
 }

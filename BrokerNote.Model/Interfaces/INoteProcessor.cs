@@ -7,6 +7,8 @@ namespace BrokerNote.Model.Interfaces
     public interface INoteProcessor
     {
         Stream FileSource { get; set; }
+
+        string GetBrokerName();
         List<Negotiation> GetNegotiations();
     }
 }

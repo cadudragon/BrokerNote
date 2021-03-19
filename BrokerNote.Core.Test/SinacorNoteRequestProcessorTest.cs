@@ -1,39 +1,38 @@
 ﻿using BrokerNote.Core.Processors;
 using BrokerNote.Model.DTOs;
-using BrokerNote.Model.Enums;
+
+using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Xunit;
+
 
 namespace BrokerNote.Core.Test
 {
+    [TestFixture]
     public class SinacorNoteRequestProcessorTest
     {
         private const string _baseFilePath = "./Resources/";
+        private string _buyNote => $"{_baseFilePath}SinacorNotes/sinacor-buy-note.pdf";
+        private string _sellNote => $"{_baseFilePath}SinacorNotes/sinacor-sell-note.pdf";
+        private List<Negotiation> _negotiations;
 
-        public SinacorNoteRequestProcessorTest()
+        [OneTimeSetUp]
+        public void Setup()
         {
-
-        }
-
-        [Fact]
-        public void Should_Return_Brokers_Name()
-        {
-            //Arrange
-            var buyNoteFile = $"{_baseFilePath}SinacorNotes/sinacor-buy-note.pdf";
-            string result = null;
-
-            //Act
-            using (StreamReader sr = new StreamReader(buyNoteFile))
+            using (StreamReader sr = new StreamReader(_buyNote))
             {
                 var processor = new SinacorNoteProcessor(sr.BaseStream);
-                result = processor.GetBrokerName();
+                _negotiations = processor.GetNegotiations();
             }
+        }
 
-            // Assert
-            Assert.NotNull(result);
-            Assert.Contains("CLEAR CORRETORA", result);
+        [Test]
+        public void Should_Return_BrokersNote_With_values_From_PDF()
+        {
+            Assert.True(_negotiations.All(x => x.BrokerName.Contains("CLEAR CORRETORA")));
+            Assert.True(_negotiations.Sum(x => x.TotalValue) == 106624);
         }
     }
 }

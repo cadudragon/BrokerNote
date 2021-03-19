@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BrokerNote.Model.Enums
 {
-    public enum NegotiationType
+    public enum OperationType
     {
         Buy = 0,
         Sell = 1

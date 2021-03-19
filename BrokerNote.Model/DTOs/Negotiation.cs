@@ -1,4 +1,5 @@
 ﻿using BrokerNote.Model.Enums;
+using System;
 
 namespace BrokerNote.Model.DTOs
 {
@@ -7,8 +8,9 @@ namespace BrokerNote.Model.DTOs
         public string StockName { get; set; }
         public string BrokerName { get; set; }
         public int Amount { get; set; }
-        public NegotiationType NegotiationType { get; set; }
+        public OperationType OperationType { get; set; }
         public decimal UnitaryPrice { get; set; }
+        public DateTime NegotiationDate { get; set; }
         public decimal TotalValue
         {
             get
